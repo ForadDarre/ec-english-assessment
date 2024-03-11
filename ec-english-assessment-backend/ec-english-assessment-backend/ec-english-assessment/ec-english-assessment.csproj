@@ -30,8 +30,4 @@
     <ProjectReference Include="..\ec-english-assessment.Domain\ec-english-assessment.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\Requests\" />
-  </ItemGroup>
-
 </Project>

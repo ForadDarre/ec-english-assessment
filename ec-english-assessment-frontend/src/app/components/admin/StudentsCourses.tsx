@@ -1,36 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StudentCourse } from "../../types/Types";
 import { Button, List, Modal } from "antd";
 import StudentsCourseRow from "./StudentsCourseRow";
 
-const studentsCourses: StudentCourse[] = [
-    {
-        id: "id1",
-        student: {
-            id: "id1",
-            name: "name1",
-            surname: "surname1",
-            email: "email1",
-        },
-        course: { id: "id1", name: "course1" },
-        startDate: new Date(),
-        endDate: new Date(),
-    },
-    {
-        id: "id2",
-        student: {
-            id: "id1",
-            name: "name1",
-            surname: "surname1",
-            email: "email1",
-        },
-        course: { id: "id2", name: "course2" },
-        startDate: new Date(),
-        endDate: new Date(),
-    },
-];
+interface DataProps {
+    studentsCourses: StudentCourse[];
+}
 
-function StudentsCourses() {
+function StudentsCourses(props: DataProps) {
+    const { studentsCourses } = props;
+
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
     const onAddStudentCourse = (): void => {

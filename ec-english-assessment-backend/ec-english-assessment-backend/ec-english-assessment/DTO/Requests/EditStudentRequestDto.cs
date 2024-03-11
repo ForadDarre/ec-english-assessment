@@ -1,6 +1,6 @@
-﻿namespace ec_english_assessment.DTO
+﻿namespace ec_english_assessment.DTO.Requests
 {
-	public class StudentDto
+	public class EditStudentRequestDto
 	{
 		public Guid Id { get; set; }
 
@@ -9,7 +9,5 @@
 		public string Surname { get; set; }
 
 		public string Email { get; set; }
-
-		public List<StudentsCourseDto> StudentsCourses { get; set; }
 	}
 }

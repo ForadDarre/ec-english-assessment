@@ -15,7 +15,9 @@ function StudentRow(props: DataProps) {
         {
             key: student.id,
             label: <StudentInfo student={student} editClick={editClick} />,
-            children: <StudentsCourses />,
+            children: (
+                <StudentsCourses studentsCourses={student.studentsCourses} />
+            ),
         },
     ];
 
