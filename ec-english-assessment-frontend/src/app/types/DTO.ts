@@ -1,1 +1,1 @@
-export interface StudentDto {}
+export interface Student {}
