@@ -80,6 +80,18 @@ namespace ec_english_assessment.Controllers
 			return Ok();
 
 			// PSEUDOCODE HERE
+
+			// I suggest the following logic:
+			// 1) We retrieve all the existing courses except the one we want to book a holiday for
+			// 2) We try to "extend" the course
+			// 3) If it doesn't overlap (we can use the same function I've created for AddStudentsCourse) we extend it
+			// 4) If it overlaps, it is more a business decision. However, my suggestion is:
+			// 5) We try to move or shrink the next courses until we catch up the schedule, i.e.
+			// 5.1) Course A starts to overlap Course B for 2 weeks. We move Course B 2 weeks ahead in the schedule
+			// 5.2) Course B starts to overlap Course C for 1 week. We move Course C 1 week ahead in the schedule
+			// 5.3) Course C doesn't overlap any other courses.
+			// 5.4) We form a new schedule and send the Student for approval. If he declines, we inform him that he has conflicts in his schedule that should be handled manually.
+
 		}
 	}
 }
