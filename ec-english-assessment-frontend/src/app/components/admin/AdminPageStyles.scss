@@ -66,32 +66,32 @@
     }
 }
 
-.add-edit-student-block {
+.add-edit-modal-block {
     width: 100%;
     display: flex;
     flex-direction: row;
 
-    .add-edit-student-labels {
+    .add-edit-modal-labels {
         width: 80px;
         display: flex;
         flex-direction: column;
     }
 
-    .add-edit-student-values {
+    .add-edit-modal-values {
         margin-left: 15px;
         width: calc(100% - 80px - 15px);
         display: flex;
         flex-direction: column;
     }
 
-    .add-edit-student-label {
+    .add-edit-modal-label {
         height: 32px;
         display: flex;
         align-items: center;
         margin-top: 5px;
     }
 
-    .add-edit-student-value {
+    .add-edit-modal-value {
         height: 32px;
         margin-top: 5px;
     }

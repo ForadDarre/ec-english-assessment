@@ -18,6 +18,7 @@ export interface StudentCourseDto {
     startDate: string;
     endDate: string;
     course: CourseDto;
+    holidayApplied: boolean;
 }
 
 export interface GetAllStudentsDto {
@@ -39,4 +40,25 @@ export interface EditStudentRequestDto {
     name: string;
     surname: string;
     email: string;
+}
+
+export interface AddStudentsCourseRequestDto {
+    studentId: string;
+    courseId: string;
+    startDate: string;
+    endDate: string;
+}
+
+export interface AddHolidayBreakRequestDto {
+    studentCourseId: string;
+    startDate: string;
+    endDate: string;
+}
+
+export interface AddStudentResponseDto {
+    id: string;
+}
+
+export interface AddStudentsCourseResponseDto {
+    id: string;
 }

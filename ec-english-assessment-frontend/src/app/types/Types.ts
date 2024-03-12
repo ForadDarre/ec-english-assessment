@@ -17,4 +17,5 @@ export interface StudentCourse {
     student?: Student;
     startDate: Date;
     endDate: Date;
+    holidayApplied: boolean;
 }

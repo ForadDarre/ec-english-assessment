@@ -44,7 +44,7 @@ namespace ec_english_assessment.Controllers
 				return BadRequest("An error occured. Cannot add student.");
 			}
 
-			return Ok(JsonConvert.SerializeObject(addedStudent));
+			return Ok(addedStudent);
 		}
 
 		[HttpPost]
@@ -57,7 +57,29 @@ namespace ec_english_assessment.Controllers
 				return BadRequest("An error occured. Cannot edit student.");
 			}
 
-			return Ok(JsonConvert.SerializeObject(editedStudent));
+			return Ok(editedStudent);
+		}
+
+		[HttpPut]
+		[Route("AddStudentsCourse")]
+		public async Task<IActionResult> AddStudentsCourse([FromBody] AddStudentsCourseRequestDto addStudentsCourseRequestDto)
+		{
+			AddStudentsCourseResponseDto? addedStudentsCourse = await _studentsService.AddStudentsCourse(addStudentsCourseRequestDto);
+			if (addedStudentsCourse == null)
+			{
+				return BadRequest("An error occured. Cannot add course.");
+			}
+
+			return Ok(addedStudentsCourse);
+		}
+
+		[HttpPut]
+		[Route("AddHolidayBreak")]
+		public async Task<IActionResult> AddHolidayBreak([FromBody] AddHolidayBreakRequestDto addHolidayBreakRequestDto)
+		{
+			return Ok();
+
+			// PSEUDOCODE HERE
 		}
 	}
 }

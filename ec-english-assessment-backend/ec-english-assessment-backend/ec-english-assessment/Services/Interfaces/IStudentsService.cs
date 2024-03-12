@@ -11,5 +11,7 @@ namespace ec_english_assessment.Services.Interfaces
 		Task<AddStudentResponse?> AddStudent(AddStudentRequestDto addStudentRequestDto);
 
 		Task<string?> EditStudent(EditStudentRequestDto editStudentRequestDto);
+
+		Task<AddStudentsCourseResponseDto?> AddStudentsCourse(AddStudentsCourseRequestDto addStudentsCourseRequestDto);
 	}
 }

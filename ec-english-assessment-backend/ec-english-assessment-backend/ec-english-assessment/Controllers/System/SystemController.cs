@@ -38,9 +38,9 @@ namespace ec_english_assessment.Controllers.System
 			Course course2 = new Course { Id = Guid.NewGuid(), Name = "Italian" };
 			Course course3 = new Course { Id = Guid.NewGuid(), Name = "English" };
 
-			StudentsCourse studentsCourse11 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student1.Id, CourseId = course1.Id, StartDate = new DateTime(2024, 02, 05), EndDate = new DateTime(2024, 03, 01) };
-			StudentsCourse studentsCourse12 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student1.Id, CourseId = course2.Id, StartDate = new DateTime(2024, 03, 04), EndDate = new DateTime(2024, 03, 29) };
-			StudentsCourse studentsCourse21 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student2.Id, CourseId = course1.Id, StartDate = new DateTime(2024, 02, 05), EndDate = new DateTime(2024, 03, 01) };
+			StudentsCourse studentsCourse11 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student1.Id, CourseId = course1.Id, StartDate = new DateTime(2024, 02, 05), EndDate = new DateTime(2024, 03, 01), HolidayApplied = false };
+			StudentsCourse studentsCourse12 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student1.Id, CourseId = course2.Id, StartDate = new DateTime(2024, 03, 04), EndDate = new DateTime(2024, 03, 29), HolidayApplied = true };
+			StudentsCourse studentsCourse21 = new StudentsCourse() { Id = Guid.NewGuid(), StudentId = student2.Id, CourseId = course1.Id, StartDate = new DateTime(2024, 02, 05), EndDate = new DateTime(2024, 03, 01), HolidayApplied = false };
 
 			List<Student> students = new List<Student>() { student1, student2, student3 };
 			List<Course> courses = new List<Course>() { course1, course2, course3 };

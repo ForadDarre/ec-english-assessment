@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StudentCourse } from "../../types/Types";
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 import { ClockCircleOutlined } from "@ant-design/icons";
+import AddHolidayBreak from "./AddHolidayBreak";
+import { AddHolidayBreakRequestDto } from "../../types/DTO";
+import { useLoading } from "../../context/LoadingContext";
+import { ErrorDefault } from "../../requests/ErrorRequest";
+import { AddHolidayBreakRequest } from "../../requests/Requests";
 
 interface DataProps {
     studentCourse: StudentCourse;
@@ -9,6 +14,7 @@ interface DataProps {
 
 function StudentsCourseRow(props: DataProps) {
     const { studentCourse } = props;
+    const { setLoading } = useLoading();
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -16,9 +22,17 @@ function StudentsCourseRow(props: DataProps) {
         setIsModalVisible(false);
     };
 
-    const onSave = (): void => {
-        console.log("Save");
+    const onSave = (
+        addHolidayBreakRequestDto: AddHolidayBreakRequestDto
+    ): void => {
         setIsModalVisible(false);
+        setLoading(true);
+        AddHolidayBreakRequest(addHolidayBreakRequestDto)
+            .catch(ErrorDefault)
+            .finally(() => {
+                setIsModalVisible(false);
+                setLoading(false);
+            });
     };
 
     const onEditClick = (e: any): void => {
@@ -38,41 +52,27 @@ function StudentsCourseRow(props: DataProps) {
                         studentCourse.endDate.toLocaleDateString()}
                 </div>
                 <Button
-                    icon={<ClockCircleOutlined className="main-color-button" />}
+                    icon={
+                        <ClockCircleOutlined
+                            className={
+                                !studentCourse.holidayApplied
+                                    ? "main-color-button"
+                                    : ""
+                            }
+                        />
+                    }
                     size="small"
                     type="link"
+                    disabled={studentCourse.holidayApplied}
                     onClick={onEditClick}
                 />
             </div>
-            <Modal
-                title={"Add Holiday Break"}
-                className="rounded-modal"
-                centered
-                open={isModalVisible}
-                width={"70%"}
-                onCancel={onModalClose}
-                cancelText="Cancel"
-                footer={[
-                    <Button
-                        type="default"
-                        className="rounded-button"
-                        key={"CancelButton"}
-                        onClick={onModalClose}
-                    >
-                        Cancel
-                    </Button>,
-                    <Button
-                        type="primary"
-                        className="rounded-button"
-                        key={"OkButton"}
-                        onClick={onSave}
-                    >
-                        Save
-                    </Button>,
-                ]}
-            >
-                <>Test</>
-            </Modal>
+            <AddHolidayBreak
+                studentCourse={studentCourse}
+                isModalVisible={isModalVisible}
+                onModalClose={onModalClose}
+                onAddHolidayBreakRequest={onSave}
+            />
         </>
     );
 }

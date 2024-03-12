@@ -10,6 +10,8 @@ namespace ec_english_assessment.DTO
 
 		public DateTime EndDate { get; set; }
 
+		public bool HolidayApplied { get; set; }
+
 		public Guid StudentId { get; set; }
 
 		public Guid CourseId { get; set; }

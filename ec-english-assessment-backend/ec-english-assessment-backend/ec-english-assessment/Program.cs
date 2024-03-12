@@ -31,6 +31,7 @@ try
 	services.AddTransient<IStudentsRepository, StudentsRepository>();
 	services.AddTransient<ICoursesService, CoursesService>();
 	services.AddTransient<ICoursesRepository, CoursesRepository>();
+	services.AddTransient<IStudentsCoursesRepository, StudentsCoursesRepository>();
 
 	builder.Services.AddControllers();
 	builder.Services.AddEndpointsApiExplorer();

@@ -1,5 +1,5 @@
-import { Button, List, Modal, Spin } from "antd";
-import { Course, Student } from "../../types/Types";
+import { Button, List, Spin } from "antd";
+import { Course, Student, StudentCourse } from "../../types/Types";
 import MainLayout from "../layout/MainLayout";
 import "./AdminPageStyles.scss";
 import StudentRow from "./StudentRow";
@@ -16,30 +16,6 @@ import { GetAllStudentsDtoToStudents } from "../../mappers/StudentsMappers";
 import { GetAllCoursesDtoToCourses } from "../../mappers/CoursesMapper";
 import AddEditStudentForm from "./AddEditStudentForm";
 import { AddStudentRequestDto, EditStudentRequestDto } from "../../types/DTO";
-
-const students: Student[] = [
-    {
-        id: "id1",
-        name: "name1",
-        surname: "surname1",
-        email: "email1",
-        studentsCourses: [],
-    },
-    {
-        id: "id2",
-        name: "name2",
-        surname: "surname2",
-        email: "email2",
-        studentsCourses: [],
-    },
-    {
-        id: "id3",
-        name: "name3",
-        surname: "surname3",
-        email: "email3",
-        studentsCourses: [],
-    },
-];
 
 function AdminPage() {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -89,7 +65,20 @@ function AdminPage() {
         setIsModalVisible(false);
         setLoading(true);
         AddStudentRequest(addStudentRequest)
-            .then(() => {})
+            .then((res) => {
+                const addedId: string = res.data.id;
+                const addedStudent: Student = {
+                    id: addedId,
+                    name: addStudentRequest.name,
+                    surname: addStudentRequest.surname,
+                    email: addStudentRequest.email,
+                    studentsCourses: [],
+                };
+
+                const updatedStudents: Student[] = [...students];
+                updatedStudents.push(addedStudent);
+                setStudents(updatedStudents);
+            })
             .catch(ErrorDefault)
             .finally(() => {
                 setLoading(false);
@@ -102,11 +91,52 @@ function AdminPage() {
         setIsModalVisible(false);
         setLoading(true);
         EditStudentRequest(editStudentRequest)
-            .then(() => {})
+            .then(() => {
+                const index: number = students.findIndex(
+                    (s) => s.id === editStudentRequest.id
+                );
+                const element: Student | undefined = students.find(
+                    (s) => s.id === editStudentRequest.id
+                );
+
+                if (index !== -1 && element) {
+                    const editedStudent: Student = {
+                        ...element,
+                        name: editStudentRequest.name,
+                        surname: editStudentRequest.surname,
+                        email: editStudentRequest.email,
+                    };
+
+                    const updatedStudents: Student[] = [...students];
+                    updatedStudents[index] = editedStudent;
+
+                    setStudents(updatedStudents);
+                }
+            })
             .catch(ErrorDefault)
             .finally(() => {
                 setLoading(false);
             });
+    };
+
+    const updateStudentsAfterAddingCourse = (
+        student: Student,
+        updatedStudentsCourses: StudentCourse[]
+    ) => {
+        const updatedStudent: Student = {
+            ...student,
+            studentsCourses: updatedStudentsCourses,
+        };
+        const index: number = students.findIndex(
+            (s) => s.id === updatedStudent.id
+        );
+
+        if (index !== -1) {
+            const updatedStudents: Student[] = [...students];
+            updatedStudents[index] = updatedStudent;
+
+            setStudents(updatedStudents);
+        }
     };
 
     return (
@@ -127,6 +157,10 @@ function AdminPage() {
                                         <StudentRow
                                             student={item}
                                             editClick={onEditStudent}
+                                            courses={courses}
+                                            updateStudents={
+                                                updateStudentsAfterAddingCourse
+                                            }
                                         />
                                     )}
                                 />

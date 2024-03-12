@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Student } from "../../types/Types";
-import { Button, Input, Modal } from "antd";
+import { Button, Form, Input, Modal } from "antd";
 import { AddStudentRequestDto, EditStudentRequestDto } from "../../types/DTO";
 
 interface DataProps {
@@ -20,6 +20,7 @@ function AddEditStudentForm(props: DataProps) {
         onEditStudentRequest,
     } = props;
 
+    const [isInputValid, setIsInputValid] = useState<boolean>();
     const [name, setName] = useState<string>("");
     const [surname, setSurname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
@@ -35,6 +36,19 @@ function AddEditStudentForm(props: DataProps) {
             setEmail("");
         }
     }, [student]);
+
+    useEffect(() => {
+        if (
+            name === "" ||
+            surname === "" ||
+            email === "" ||
+            !isValidEmail(email)
+        ) {
+            setIsInputValid(false);
+        } else {
+            setIsInputValid(true);
+        }
+    }, [name, surname, email]);
 
     const onNameChange = (value: ChangeEvent<HTMLInputElement>) => {
         setName(value.target.value);
@@ -67,6 +81,15 @@ function AddEditStudentForm(props: DataProps) {
         }
     };
 
+    const isValidEmail = (email: string): boolean => {
+        // Regular expression pattern for validating email addresses
+        const pattern: RegExp =
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // Check if the email matches the pattern
+        return pattern.test(email);
+    };
+
     const modalClose = (): void => {
         onModalClose();
     };
@@ -94,35 +117,37 @@ function AddEditStudentForm(props: DataProps) {
                     className="rounded-button"
                     key={"OkButton"}
                     onClick={onSave}
+                    disabled={!isInputValid}
                 >
                     Save
                 </Button>,
             ]}
         >
-            <div className="add-edit-student-block">
-                <div className="add-edit-student-labels">
-                    <span className="add-edit-student-label">Name:</span>
-                    <span className="add-edit-student-label">Surname:</span>
-                    <span className="add-edit-student-label">Email:</span>
+            <div className="add-edit-modal-block">
+                <div className="add-edit-modal-labels">
+                    <span className="add-edit-modal-label">Name:</span>
+                    <span className="add-edit-modal-label">Surname:</span>
+                    <span className="add-edit-modal-label">Email:</span>
                 </div>
-                <div className="add-edit-student-values">
+                <div className="add-edit-modal-values">
                     <Input
                         placeholder="Enter student's name"
-                        className="add-edit-student-value"
+                        className="add-edit-modal-value"
                         value={name}
                         onChange={onNameChange}
                     />
                     <Input
                         placeholder="Enter student's surname"
-                        className="add-edit-student-value"
+                        className="add-edit-modal-value"
                         value={surname}
                         onChange={onSurnameChange}
                     />
                     <Input
                         placeholder="Enter student's email"
-                        className="add-edit-student-value"
+                        className="add-edit-modal-value"
                         value={email}
                         onChange={onEmailChange}
+                        type="email"
                     />
                 </div>
             </div>

@@ -1,14 +1,23 @@
 import { useState } from "react";
-import { StudentCourse } from "../../types/Types";
-import { Button, List, Modal } from "antd";
+import { Course, Student, StudentCourse } from "../../types/Types";
+import { Button, List } from "antd";
 import StudentsCourseRow from "./StudentsCourseRow";
+import AddStudentsCourse from "./AddStudentsCourse";
+import { AddStudentsCourseRequest } from "../../requests/Requests";
+import { useLoading } from "../../context/LoadingContext";
+import { ErrorDefault } from "../../requests/ErrorRequest";
+import { AddStudentsCourseRequestDto } from "../../types/DTO";
 
 interface DataProps {
+    student: Student;
     studentsCourses: StudentCourse[];
+    courses: Course[];
+    updateStudents: Function;
 }
 
 function StudentsCourses(props: DataProps) {
-    const { studentsCourses } = props;
+    const { student, studentsCourses, courses, updateStudents } = props;
+    const { setLoading } = useLoading();
 
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
@@ -20,9 +29,41 @@ function StudentsCourses(props: DataProps) {
         setIsModalVisible(false);
     };
 
-    const onSave = (): void => {
-        console.log("Save");
+    const onSave = (
+        addStudentsCourseRequestDto: AddStudentsCourseRequestDto
+    ): void => {
         setIsModalVisible(false);
+        setLoading(true);
+        AddStudentsCourseRequest(addStudentsCourseRequestDto)
+            .then((res) => {
+                const addedId: string = res.data.id;
+                const course: Course | undefined = courses.find(
+                    (c) => c.id === addStudentsCourseRequestDto.courseId
+                );
+
+                if (course) {
+                    const addedStudentCourse: StudentCourse = {
+                        id: addedId,
+                        course: course,
+                        startDate: new Date(
+                            addStudentsCourseRequestDto.startDate
+                        ),
+                        endDate: new Date(addStudentsCourseRequestDto.endDate),
+                        holidayApplied: false,
+                    };
+
+                    const updatedStudentsCourses: StudentCourse[] = [
+                        ...studentsCourses,
+                    ];
+                    updatedStudentsCourses.push(addedStudentCourse);
+                    updateStudents(student, updatedStudentsCourses);
+                }
+            })
+            .catch(ErrorDefault)
+            .finally(() => {
+                setIsModalVisible(false);
+                setLoading(false);
+            });
     };
 
     return (
@@ -41,35 +82,13 @@ function StudentsCourses(props: DataProps) {
                     </Button>
                 </div>
             </div>
-            <Modal
-                title={"Add Course"}
-                className="rounded-modal"
-                centered
-                open={isModalVisible}
-                width={"70%"}
-                onCancel={onModalClose}
-                cancelText="Cancel"
-                footer={[
-                    <Button
-                        type="default"
-                        className="rounded-button"
-                        key={"CancelButton"}
-                        onClick={onModalClose}
-                    >
-                        Cancel
-                    </Button>,
-                    <Button
-                        type="primary"
-                        className="rounded-button"
-                        key={"OkButton"}
-                        onClick={onSave}
-                    >
-                        Save
-                    </Button>,
-                ]}
-            >
-                <>Test</>
-            </Modal>
+            <AddStudentsCourse
+                student={student}
+                isModalVisible={isModalVisible}
+                onModalClose={onModalClose}
+                onAddStudentsCourseRequest={onSave}
+                courses={courses}
+            />
         </>
     );
 }
