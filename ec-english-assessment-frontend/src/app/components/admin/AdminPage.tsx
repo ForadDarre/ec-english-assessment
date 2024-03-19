@@ -43,7 +43,7 @@ function AdminPage() {
                     .finally(() => setLoading(false));
             })
             .catch(ErrorDefault);
-    }, []);
+    }, [setLoading]);
 
     const onAddStudent = (): void => {
         setIsModalVisible(true);

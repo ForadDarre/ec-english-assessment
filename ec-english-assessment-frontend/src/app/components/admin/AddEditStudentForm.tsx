@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Student } from "../../types/Types";
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Input, Modal } from "antd";
 import { AddStudentRequestDto, EditStudentRequestDto } from "../../types/DTO";
 
 interface DataProps {
