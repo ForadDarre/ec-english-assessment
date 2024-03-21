@@ -137,9 +137,16 @@ function AddStudentsCourse(props: DataProps) {
                 <div className="add-edit-modal-values">
                     <Select
                         className="add-edit-modal-value"
-                        options={courses.map((c) => {
-                            return { key: c.id, value: c.name };
-                        })}
+                        options={courses
+                            .filter(
+                                (c) =>
+                                    !student.studentsCourses
+                                        .map((sc) => sc.course.id)
+                                        .includes(c.id)
+                            )
+                            .map((c) => {
+                                return { key: c.id, value: c.name };
+                            })}
                         onSelect={(key, value) => onSelectCourse(key, value)}
                         value={{
                             key: selectedCourse?.id,
