@@ -145,7 +145,10 @@ function AdminPage() {
                 <div className="div-center-horizontally-and-vertically">
                     <div className="admin-page-block">
                         {loading ? (
-                            <div className="div-center-horizontally-and-vertically">
+                            <div
+                                className="div-center-horizontally-and-vertically"
+                                data-testid="main-loading"
+                            >
                                 <Spin size="large" />
                             </div>
                         ) : (
