@@ -6,8 +6,6 @@ using ec_english_assessment.DTO.Responses;
 using ec_english_assessment.Repositories.Interfaces;
 using ec_english_assessment.Services.Interfaces;
 using ec_english_assessment.Validators;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.RegularExpressions;
 
 namespace ec_english_assessment.Services
 {

@@ -1,11 +1,7 @@
-﻿using AutoMapper;
-using ec_english_assessment.Domain.Models;
-using ec_english_assessment.DTO;
-using ec_english_assessment.DTO.Requests;
+﻿using ec_english_assessment.DTO.Requests;
 using ec_english_assessment.DTO.Responses;
 using ec_english_assessment.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace ec_english_assessment.Controllers
 {
